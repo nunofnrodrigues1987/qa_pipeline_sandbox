@@ -4,6 +4,7 @@ import Base.BaseUtil;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 //public class Hook extends BaseUtil {
@@ -19,11 +20,36 @@ public class Hook extends BaseUtil {
     @Before
     public void InitializeTest() {
 
-        System.out.println("Opening the browser: Firefox");
+        /* //Static to firefox browser
 
         System.setProperty("webdriver.gecko.driver","C:\\workspace\\geckodriver.exe");
 
         base.driver =  new FirefoxDriver();
+        */
+
+        //Support parallel execution
+
+        String browser = System.getProperty("Browser");
+
+        if(browser==null) {
+            browser = "Chrome";
+        }
+
+        switch (browser) {
+            case "Firefox": {
+                System.setProperty("webdriver.gecko.driver","C:\\workspace\\geckodriver.exe");
+                base.driver =  new FirefoxDriver();
+                break;
+            }
+            case "Chrome": {
+                System.setProperty("webdriver.chrome.driver","C:\\workspace\\chromedriver.exe");
+                base.driver =  new ChromeDriver();
+                break;
+            }
+            default:
+                base.driver = new ChromeDriver();
+                break;
+        }
     }
 
     @After
@@ -35,7 +61,7 @@ public class Hook extends BaseUtil {
             System.out.println("Scenario name is " + scenario.getName());
         }
 
-        base.driver.close();
+       // base.driver.close();
     }
 
 }
