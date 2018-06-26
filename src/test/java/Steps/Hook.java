@@ -35,7 +35,7 @@ public class Hook extends BaseUtil {
             System.out.println("Scenario name is " + scenario.getName());
         }
 
-        System.out.println("Closing the browser: MOCK");
+        base.driver.close();
     }
 
 }
